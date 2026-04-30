@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Staff Email Signatures - Fair Healthcare</title>
+    <style>
+        body {
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        /* 3-column grid container */
+        #all-signatures {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Individual clean card for each staff member - THIS doesn't get copied */
+        .signature-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 0 0 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid #eaeaea; /* Border stays here, safe from copying */
+        }
+        .action-container {
+            margin-bottom: 20px;
+        }
+        .copy-btn {
+            background-color: #459fd7;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .copy-btn:hover {
+            background-color: #3b88c2;
+        }
+        /* Shrinks the 640px signature visually to 50% (320px) on screen */
+        .scale-wrapper {
+            width: 640px;
+            transform: scale(0.5);
+            transform-origin: top center;
+            height: 210px; 
+        }
+        a:hover {
+            opacity: 0.8;
+        }
+        .book-btn:hover {
+            background-color: #3b88c2 !important;
+        }
+        /* Responsive layout */
+        @media (max-width: 1050px) {
+            #all-signatures { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 700px) {
+            #all-signatures { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="all-signatures"></div>
+
+    <script>
+        // Data parsed directly from your CSV
+        const staffList = [
+          {
+            "name": "Erin Watson",
+            "role": "Head of Design",
+            "email": "erin@fairhealthcare.com.au",
+            "phone": "61433878996",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-erin-watson.png"
+          },
+          {
+            "name": "Liz Trieu",
+            "role": "Senior Health Insurance Adviser",
+            "email": "liz@fairhealthcare.com.au",
+            "phone": "0483 937 435",
+            "calendly": "https://bit.ly/liztrieu",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-liz-trieu.png"
+          },
+          {
+            "name": "Jade (Nattapol Boonyapornpong)",
+            "role": "Web Developer",
+            "email": "jade@fairhealthcare.com.au",
+            "phone": "66981322686",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-jade-nattapol-boonyapornpong.png"
+          },
+          {
+            "name": "Todd Harpley",
+            "role": "Head of Sales and Marketing",
+            "email": "todd@fairhealthcare.com.au",
+            "phone": "0415441790",
+            "calendly": "https://calendar.app.google/BNy1RTDofzDBjCz78",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-todd-harpley.png"
+          },
+          {
+            "name": "Monique Deayton",
+            "role": "Health Team Leader",
+            "email": "monique@fairhealthcare.com.au",
+            "phone": "0489269210",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-monique-deayton.png"
+          },
+          {
+            "name": "Mathew Banks",
+            "role": "Senior Health Insurance Adviser",
+            "email": "mathew@fairhealthcare.com.au",
+            "phone": "0489 265 659",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/health-insurance-callback-w-mathew-banks",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-mathew-banks.png"
+          },
+          {
+            "name": "Ty Reimerink",
+            "role": "Lead Generation",
+            "email": "ty@fairhealthcare.com.au",
+            "phone": "0430 900 286",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-ty-reimerink.png"
+          },
+          {
+            "name": "William Koder",
+            "role": "Senior Health Insurance Adviser",
+            "email": "william@fairhealthcare.com.au",
+            "phone": "0489 088 260",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/compare-health-insurance-william",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-william-koder.png"
+          },
+          {
+            "name": "Edward O'Toole",
+            "role": "Senior Health Insurance Adviser",
+            "email": "edward@fairhealthcare.com.au",
+            "phone": "0489 265 325",
+            "calendly": "https://bit.ly/edotoole",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-edward-otoole.png"
+          },
+          {
+            "name": "Chol Mok",
+            "role": "Senior Health Insurance Adviser",
+            "email": "chol@fairhealthcare.com.au",
+            "phone": "0489 081 742",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-chol-mok.png"
+          },
+          {
+            "name": "Cam Davie",
+            "role": "Senior Health Insurance Adviser",
+            "email": "",
+            "phone": "0489 260 808",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/health-insurance-callback-cameron?month=2026-01",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-Cam-davie.png"
+          },
+          {
+            "name": "Rohan Parker",
+            "role": "Partnerships Manager",
+            "email": "rohan@fairhealthcare.com.au",
+            "phone": "0428 604 841",
+            "calendly": "https://calendly.com/rohan-fhca/online-meet-15min",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-rohan-parker.png"
+          },
+          {
+            "name": "Teal McGuffin",
+            "role": "Partnerships Manager",
+            "email": "teal@fairhealthcare.com.au",
+            "phone": "0489 088 698",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/meeting-with-teal",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-teal-mcguffin.png"
+          },
+          {
+            "name": "Aaron Costello",
+            "role": "Senior Health Insurance Adviser",
+            "email": "aaron.costello@fairhealthcare.com.au",
+            "phone": "0489 263 745",
+            "calendly": "https://bit.ly/aaroncostello",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-aaron-costello.png"
+          },
+          {
+            "name": "Kanwal Gill",
+            "role": "Senior Health Insurance Adviser",
+            "email": "kanwal@fair.com.au",
+            "phone": "0468 091 852",
+            "calendly": "https://bit.ly/kanwalgill",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-kanwal-gill.png"
+          },
+          {
+            "name": "Peter Maisuria",
+            "role": "Senior Health Insurance Adviser",
+            "email": "peter@fairhealthcare.com.au",
+            "phone": "0483 946 925",
+            "calendly": "https://calendly.com/peter-fairhealthcare",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-peter-maisuria.png"
+          },
+          {
+            "name": "Jennie Howard",
+            "role": "Customer Care Team",
+            "email": "jennie@fairhealthcare.com.au",
+            "phone": "0489 262 805",
+            "calendly": "https://calendly.com/jennie-howard/health-insurance-callback-w-jennie-howard",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-jennie-howard.png"
+          },
+          {
+            "name": "Mark Battaglia",
+            "role": "Head of Business Operations & Systems",
+            "email": "mark@fair.com.au",
+            "phone": "0438 020 440",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-mark-battaglia.png"
+          },
+          {
+            "name": "Vinaa Marawa",
+            "role": "Lead Generation",
+            "email": "vinaa@fairhealthcare.com.au",
+            "phone": "0483957851",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-vinaa-marawa.png"
+          },
+          {
+            "name": "Adi Tuiteci",
+            "role": "Lead Generation",
+            "email": "adi@fairhealthcare.com.au",
+            "phone": "0483982934",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-adi-tuiteci.png"
+          },
+          {
+            "name": "Aaron Savrone",
+            "role": "Co-Director",
+            "email": "aaron@fair.com.au",
+            "phone": "0489 084 148",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-aaron-savrone.png"
+          },
+          {
+            "name": "Chris Farace",
+            "role": "Co-Director",
+            "email": "chris@fair.com.au",
+            "phone": "0413 901 251",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-chris-farace.png"
+          },
+          {
+            "name": "Joseph Richards",
+            "role": "Senior Health Insurance Adviser",
+            "email": "Joseph@fairhealthcare.com.au",
+            "phone": "0483 940 793",
+            "calendly": "https://calendly.com/joseph-fairhealthcare/30min",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-joeseph-richards-1.png"
+          },
+          {
+            "name": "Antony Maretis",
+            "role": "Senior Health Insurance Advisor",
+            "email": "antony@fairhealthcare.com.au",
+            "phone": "0468 022 703",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/antony",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-antony-maretis.png"
+          },
+          {
+            "name": "Adam Whitty",
+            "role": "Senior Health Insurance Advisor",
+            "email": "adam@fair.com.au",
+            "phone": "0485009321",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/health-insurance-callback-w-adam",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-adam-whitty.png"
+          },
+          {
+            "name": "Rob Hunt",
+            "role": "Co-Director – Overseas Operations",
+            "email": "robin@fair.com.au",
+            "phone": "085888 20201",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-robin-hunt-1.png"
+          },
+          {
+            "name": "Amanuel Abraha",
+            "role": "Senior Health Insurance Advisor",
+            "email": "amanuel@fairhealthcare.com.au",
+            "phone": "0468 041 123",
+            "calendly": "",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-amanuel-abraha.png"
+          },
+          {
+            "name": "Alexander Valentino",
+            "role": "Senior Health Insurance Advisor",
+            "email": "alexander@fairhealthcare.com.au",
+            "phone": "0489 263 928",
+            "calendly": "https://calendly.com/fair-healthcare-alliance/health-insurance-callback-alexander",
+            "avatar": "https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-alexander-valentino.png"
+          }
+        ];
+
+        window.onload = function() {
+            const container = document.getElementById("all-signatures");
+            
+            staffList.forEach((staff, index) => {
+                
+                let calendlyHtml = '';
+                if (staff.calendly) {
+                    calendlyHtml = `
+                    <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 5px;">
+                        <tr>
+                            <td align="center" bgcolor="#459fd7" style="border-radius: 20px;">
+                                <a href="${staff.calendly}" class="book-btn" style="font-family: Arial, sans-serif; font-size: 14px; color: #ffffff; text-decoration: none; font-weight: bold; display: block; padding: 10px 20px; border-radius: 20px;">Book a time</a>
+                            </td>
+                        </tr>
+                    </table>`;
+                }
+                
+                // Format phone visually by stripping spaces just for the tel link
+                const rawPhone = staff.phone.replace(/\s+/g, '');
+                
+                const signatureHTML = `
+                <div class="signature-card">
+                    <div class="action-container">
+                        <button class="copy-btn" onclick="copySignature('sig-${index}', this)">Copy: ${staff.name}</button>
+                    </div>
+                    
+                    <div class="scale-wrapper">
+                        <div id="sig-${index}">
+                            <table cellpadding="0" cellspacing="0" border="0" width="640" style="width: 640px; background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; color: #202c45;">
+                                <tr>
+                                    <td style="padding: 30px;">
+                                        
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                            <tr>
+                                                <td width="130" valign="top" style="padding-right: 20px;">
+                                                    <img src="${staff.avatar}" alt="Avatar" style="width: 100px; height: 80px; object-fit: contain; display: block;" />
+                                                </td>
+
+                                                <td width="380" valign="top">
+                                                    <h1 style="margin: 0 0 4px 0; font-size: 20px; color: #202c45; font-weight: bold;">${staff.name}</h1>
+                                                    <p style="margin: 0 0 15px 0; font-size: 16px; color: #202c45;">${staff.role}</p>
+
+                                                    <table cellpadding="0" cellspacing="0" border="0" style="font-size: 14px; line-height: 1.8;">
+                                                        <tr>
+                                                            <td width="24" valign="middle">
+                                                                <img src="https://fair.com.au/wp-content/uploads/2026/04/rect9346.png" alt="Email" width="14" style="display:block;">
+                                                            </td>
+                                                            <td>
+                                                                <a href="mailto:${staff.email}" style="color: #202c45; text-decoration: none;">${staff.email}</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="24" valign="middle">
+                                                                <img src="https://img.icons8.com/ios-filled/50/459fd7/phone.png" alt="Phone" width="14" style="display:block;">
+                                                            </td>
+                                                            <td>
+                                                                <a href="tel:${rawPhone}" style="color: #202c45; text-decoration: none;">${staff.phone}</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="24" valign="middle">
+                                                                <img src="https://img.icons8.com/ios-filled/50/459fd7/domain.png" alt="Website" width="14" style="display:block;">
+                                                            </td>
+                                                            <td>
+                                                                <a href="https://fair.com.au" style="color: #202c45; text-decoration: none;">fair.com.au</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                    <p style="margin: 12px 0 15px 0; font-size: 14px; color: #202c45; line-height: 1.4;">
+                                                        Suite 1, Level 4/468 St Kilda Road<br>
+                                                        Melbourne VIC 3004
+                                                    </p>
+                                                    ${calendlyHtml}
+                                                </td>
+
+                                                <td width="130" valign="top" align="right">
+                                                    <img src="https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-logo-primary-02.png" alt="logo" style="height: 80px; object-fit: contain;">
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top: 25px;">
+                                            <tr>
+                                                <td style="font-size: 0; line-height: 0; padding: 0;">
+                                                    <img src="https://fair.com.au/wp-content/uploads/2026/04/fair.com_.au-email-signature-banner-scaled.png" style="width: 100%; object-fit: contain;" alt="badge banner">
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top: 15px;">
+                                            <tr>
+                                                <td>
+                                                    <p style="margin: 0; font-size: 9px; color: #666666; line-height: 1.4; text-align: justify;">
+                                                        This email is for the intended recipient's use only. If you have received this email by mistake you are prohibited from using, disseminating, distributing or reproducing this email, please notify us by return email as soon as possible and permanently delete the email.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                container.innerHTML += signatureHTML;
+            });
+        }
+
+        function copySignature(containerId, btn) {
+            const signature = document.getElementById(containerId);
+            const range = document.createRange();
+            range.selectNode(signature);
+            
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                const originalText = btn.innerText;
+                btn.innerText = "Copied!";
+                btn.style.backgroundColor = "#28a745"; 
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = "#459fd7"; 
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy signature: ', err);
+                alert("Failed to copy. Please manually highlight the signature and press Ctrl+C or Cmd+C.");
+            }
+            
+            selection.removeAllRanges();
+        }
+    </script>
+</body>
+</html>
