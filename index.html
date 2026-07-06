@@ -342,6 +342,22 @@
                 "phone": "431881933",
                 "calendly": "",
                 "avatar": "https://fair.com.au/wp-content/uploads/2026/05/Fair.com_.au-Staff-illos-Clint-Hamilton-Carroll.png"
+            },
+            {
+                "name": "Anel Bajrektarevic",
+                "role": "Lead Generation",
+                "email": "anel@fair.com.au",
+                "phone": "0485034596",
+                "calendly": "",
+                "avatar": "https://fair.com.au/wp-content/uploads/2026/07/fair.com_.au-email-signature-Anel-Bajrektarevic.png"
+            },
+            {
+                "name": "Thomas Ruscillo",
+                "role": "Health Team Leader",
+                "email": "tom@fair.com.au",
+                "phone": "",
+                "calendly": "",
+                "avatar": "https://fair.com.au/wp-content/uploads/2026/07/fair.com_.au-email-signature-Thomas-Ruscillo.png"
             }
         ];
 
@@ -362,8 +378,20 @@
                     </table>`;
                 }
 
-                // Format phone visually by stripping spaces just for the tel link
-                const rawPhone = staff.phone.replace(/\s+/g, '');
+                let phoneHtml = '';
+                // Added a check so it doesn't try to parse empty phone strings
+                if (staff.phone) {
+                    const rawPhone = staff.phone.replace(/\s+/g, '');
+                    phoneHtml = `
+                    <tr>
+                        <td width="18" valign="middle">
+                            <img src="https://fair.com.au/wp-content/uploads/2026/04/phone-icon.svg" alt="Phone" width="8" style="display:block; margin-left: 1px; width: 8px;">
+                        </td>
+                        <td>
+                            <a href="tel:${rawPhone}" style="color: #202c45; text-decoration: none;">${staff.phone}</a>
+                        </td>
+                    </tr>`;
+                }
 
                 const signatureHTML = `
                 <div class="signature-card">
@@ -396,14 +424,7 @@
                                                                 <a href="mailto:${staff.email}" style="color: #202c45; text-decoration: none;">${staff.email}</a>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td width="18" valign="middle">
-                                                                <img src="https://fair.com.au/wp-content/uploads/2026/04/phone-icon.svg" alt="Phone" width="8" style="display:block; margin-left: 1px; width: 8px;">
-                                                            </td>
-                                                            <td>
-                                                                <a href="tel:${rawPhone}" style="color: #202c45; text-decoration: none;">${staff.phone}</a>
-                                                            </td>
-                                                        </tr>
+                                                        ${phoneHtml}
                                                         <tr>
                                                             <td width="18" valign="middle">
                                                                 <img src="https://fair.com.au/wp-content/uploads/2026/04/Globe-icon.svg" alt="Website" width="11" style="display:block; width: 11px;">
